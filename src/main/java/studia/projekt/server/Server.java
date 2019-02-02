@@ -3,13 +3,18 @@ package studia.projekt.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import studia.projekt.server.connection.ServerConnection;
+import studia.projekt.server.database.DAO;
+import studia.projekt.server.database.model.Account;
+import studia.projekt.server.database.model.MeasurementEntry;
 
 /**
- * <b>Klasa główna serwera</b>
+ *
  * 
  * Założeniami serwera są: - zdolność do obsługi wyłącznie jednego połączenia w
  * danej chwili - serwer opiera się na blokującym IO, dlatego dla każdego
@@ -25,7 +30,7 @@ import studia.projekt.server.connection.ServerConnection;
  * lub nie rozpoznanie klienta) wątki skojarzone z obiektem ServerConnection są
  * zatrzymane, a referencja servera do obiektu zostaje zamieniona na <b>null</b>
  * 
- * @author bruce
+ * 
  *
  */
 public class Server {
@@ -57,10 +62,19 @@ public class Server {
 	 */
 	private ServerConnection sCon;
 
-	public static void main(String[] args) throws IOException {
+	/**
+	 * Data access object połączenie i obsługa bazy danych
+	 */
+	private DAO dao = new DAO();
+
+	public static void main(String[] args) throws IOException, SQLException {
 		server = new Server();
 		server.waitForConnection();
 
+	}
+
+	public Server() throws SQLException {
+		dao.connect();
 	}
 
 	/**
@@ -82,7 +96,7 @@ public class Server {
 			logger.log(Level.INFO, "Połączono z klientem");
 
 			// po połączeniu utwórz obiekt ServerConnection
-			sCon = new ServerConnection(this, s);
+			sCon = new ServerConnection(this, dao, s);
 			sCon.start();
 			// od tego czasu obiekt ten kontroluje w zasadzie cały serwer i to co się na nim
 			// dzieje
@@ -93,10 +107,12 @@ public class Server {
 	/**
 	 * resetuje połączenie Utworzony zostaje nowy pojedyńczy wątek na którym serwer
 	 * oczekuje na nowe połączenie
+	 * @throws IOException 
 	 */
-	public void reset() {
+	public void reset() throws IOException {
 		if (sCon != null) {
 			logger.log(Level.INFO, "restart");
+			ss.close();
 			sCon = null;
 			Thread starter = new Thread(() -> {
 				try {
