@@ -1,5 +1,9 @@
 package studia.projekt.server.database.model;
 
+/**
+ * klasa reprezentująca wpis wyników w bazie danych
+ *
+ */
 public class MeasurementEntry {
 
 	private Integer id;

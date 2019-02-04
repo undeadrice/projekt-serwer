@@ -8,8 +8,6 @@ import java.sql.SQLException;
 
 /**
  * Częściowa implementacja, wykorzystująca SQLite
- * 
- * @author bruce
  *
  */
 public abstract class AbstractSQLiteDAO implements AccountDAO, MeasurementEntryDAO {
@@ -29,7 +27,7 @@ public abstract class AbstractSQLiteDAO implements AccountDAO, MeasurementEntryD
 	 */
 	protected Connection con;
 	
-	
+
 	public void connect() throws SQLException {
 		con = DriverManager.getConnection(DRIVER+PATH);
 	}
@@ -41,7 +39,10 @@ public abstract class AbstractSQLiteDAO implements AccountDAO, MeasurementEntryD
 	public Connection getCon() {
 		return con;
 	}
-	
+
+	/**
+	 * Zwraca klucz główny poprzednio utworzonego wpisu z bazy danych sqlite
+	 */
 	@Override
 	public Integer getNextKey() throws SQLException {
 		try(PreparedStatement ps = con.prepareStatement("SELECT seq FROM sqlite_sequence WHERE name = ?")){

@@ -10,17 +10,16 @@ import studia.projekt.server.database.model.Account;
 import studia.projekt.server.database.model.MeasurementEntry;
 
 /**
- * Konkretna implementacja wszystkich metod wykorzystująca SQLite
+ * pełna implementacja wszystkich metod wykorzystująca SQLite
  * 
- * @author bruce
+ * 
  *
  */
 public class DAO extends AbstractSQLiteDAO {
 
-	public DAO() {
-
-	}
-
+	/**
+	 * tworzy nowe konto w bazie danych
+	 */
 	@Override
 	public void createAccount(Account account) throws SQLException {
 		try (PreparedStatement ps = this.getCon().prepareStatement(
@@ -35,7 +34,9 @@ public class DAO extends AbstractSQLiteDAO {
 		}
 
 	}
-
+	/**
+	 * zwraca obiekt reprezentujący konto
+	 */
 	@Override
 	public Account selectAccount(Integer id) throws SQLException {
 		try (PreparedStatement ps = this.getCon().prepareStatement("select * from account where id = ?")) {
@@ -51,16 +52,19 @@ public class DAO extends AbstractSQLiteDAO {
 
 	@Override
 	public void updateAccount(Account account) throws SQLException {
-		// TODO Auto-generated method stub
+		// nie używane
 
 	}
 
 	@Override
 	public Boolean deleteAccount(Account account) throws SQLException {
-		// TODO Auto-generated method stub
+		// nie używane
 		return null;
 	}
 
+	/**
+	 * zwraca liste wszystkic kont z bazy danych
+	 */
 	@Override
 	public List<Account> selectAllAccounts() throws SQLException {
 		List<Account> accounts = new ArrayList<>();
@@ -74,6 +78,9 @@ public class DAO extends AbstractSQLiteDAO {
 		return accounts;
 	}
 
+	/**
+	 * tworzy nowy wpis w bazie danych
+	 */
 	@Override
 	public void createMeasurementEntry(MeasurementEntry entry) throws SQLException {
 		try (PreparedStatement ps = this.getCon().prepareStatement(
@@ -95,7 +102,9 @@ public class DAO extends AbstractSQLiteDAO {
 		}
 
 	}
-
+	/**
+	 * zwraca wpis o danym kluczu głównym
+	 */
 	@Override
 	public MeasurementEntry selectMeasurementEntry(Integer id) throws SQLException {
 		try (PreparedStatement ps = this.getCon().prepareStatement("SELECT * FROM entry_measurement where id = ?")) {
@@ -109,7 +118,9 @@ public class DAO extends AbstractSQLiteDAO {
 		}
 		return null;
 	}
-
+	/**
+	 * modyfikuje wpis w bazie danych
+	 */
 	@Override
 	public void updateMeasurementEntry(MeasurementEntry entry) throws SQLException {
 		try (PreparedStatement ps = this.getCon().prepareStatement(
@@ -132,6 +143,9 @@ public class DAO extends AbstractSQLiteDAO {
 
 	}
 
+	/**
+	 * kasuje wybrany wpis
+	 */
 	@Override
 	public Boolean deleteMeasurementEntry(Integer id) throws SQLException {
 		try (PreparedStatement ps = this.getCon().prepareStatement("DELETE FROM entry_measurement where id = ?")) {
@@ -142,6 +156,9 @@ public class DAO extends AbstractSQLiteDAO {
 	}
 
 	@Override
+	/**
+	 * zwraca listę wszystkich wpisów z bazy danych
+	 */
 	public List<MeasurementEntry> selectAllMeasurementEntries() throws SQLException {
 		List<MeasurementEntry> entries = new ArrayList<>();
 		try (PreparedStatement ps = this.getCon().prepareStatement("SELECT * FROM entry_measurement")) {

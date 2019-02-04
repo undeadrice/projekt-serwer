@@ -1,5 +1,10 @@
 package studia.projekt.server.database.model;
 
+
+/**
+ * klasa reprezentująca wpis konto i dane z nim związane
+ *
+ */
 public class Account {
 
 	private Integer id;

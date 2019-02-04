@@ -14,15 +14,12 @@ import studia.projekt.server.database.model.Account;
 import studia.projekt.server.database.model.MeasurementEntry;
 
 /**
- *
+ * - 1 połączenie w danej chwili
+ * - 3 wątki na połączenie
+ * - przez TCP, blokujące IO
  * 
- * Założeniami serwera są: - zdolność do obsługi wyłącznie jednego połączenia w
- * danej chwili - serwer opiera się na blokującym IO, dlatego dla każdego
- * połączenia utwarzane są 3 dedykowane im wątki
  * 
- * - protokół TCP
- * 
- * <b> Algorytm serwera </b> 1. Serwer, zajmując główny wątek oczekuje na
+ * 1. Serwer, zajmując główny wątek oczekuje na
  * połączenie klienta, dopóki to nie nastąpi wątek serwera jest zablokowany 2.
  * Po ustaleniu połączenia, utwórz obiekt Socket, następnie przekaż go nowo
  * utworzonemu obiektowi <b>ServerConnection<b/> 3. Serwer uruchamia 3 wątki i
@@ -52,8 +49,8 @@ public class Server {
 	private Logger logger = Logger.getLogger(ServerConnection.class.getName());
 
 	/**
-	 * gniazdo serwera, do przyjmowania połączeń i tworzenia obiektów typu Socket
-	 * potrzebnych do utworzenia obiektu ServerConnection
+	 * gniazdo serwera, do przyjmowania połączeń i tworzenia obiektów Socket
+	 * przekazywanych dalej do obiektów ServerConnection
 	 */
 	private ServerSocket ss;
 
@@ -63,7 +60,7 @@ public class Server {
 	private ServerConnection sCon;
 
 	/**
-	 * Data access object połączenie i obsługa bazy danych
+	 * Data access object - połączenie i obsługa bazy danych
 	 */
 	private DAO dao = new DAO();
 

@@ -10,7 +10,6 @@ import studia.projekt.server.database.model.MeasurementEntry;
  * Zbiór metod mających na celu wykonywanie podstawowych operacji CRUD na danych
  * związanych z wynikami krwi
  * 
- * @author bruce
  *
  */
 public interface MeasurementEntryDAO {

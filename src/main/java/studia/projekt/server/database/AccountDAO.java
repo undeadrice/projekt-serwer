@@ -6,10 +6,9 @@ import java.util.List;
 import studia.projekt.server.database.model.Account;
 
 /**
- * Zbiór metod mających na celu wykonywanie podstawowych operacji CRUD na danych
+ * Zbiór metod mających na celu wykonywanie podstawowych operacji Create , Read , Update , Delete (CRUD) na danych
  * związanych z kontami
  * 
- * @author bruce
  *
  */
 public interface AccountDAO {
